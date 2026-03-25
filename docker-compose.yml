@@ -1,0 +1,22 @@
+services:
+  corrector:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spelling-corrector
+    network_mode: host
+    environment:
+      - LLAMA_SERVER_URL=http://127.0.0.1:8080
+      - LLAMA_MODEL=Qwen2.5-14B-Instruct-Q6_K_M.gguf
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - CHUNK_SIZE=15000
+      - MAX_TOKENS=4000
+      - TEMPERATURE=0.1
+      - TIMEOUT=900
+      - QUICK_MODE=${QUICK_MODE:-false}
+      - MAX_RETRIES=30
+      - RETRY_DELAY=2
+    volumes:
+      - /home/ubuntu/output:/app/rw:z
+    stdin_open: true
+    tty: true
